@@ -34,7 +34,7 @@ class Api {
         payload = { ...payload, ...appPayLoad };
 
         const dataKey = (method === 'get') ? 'params' : 'data';
-        const url = "http://localhost:3000/api" + requestPath;
+        const url = "http://kanjitoday.se-kawan.com/api" + requestPath;
 
         
         const request = axios.request({

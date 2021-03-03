@@ -15,7 +15,7 @@ interface Props {
 const Signin: NextPage<Props> = ({ }) => {
 
     const initFormikValue = {
-        email: 'jihanlugas2@gmail.coms',
+        email: 'jihanlugas2@gmail.com',
         password: '123456',
     }
 
