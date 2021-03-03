@@ -39,7 +39,7 @@ class Api {
         
         const request = axios.request({
             url: url,
-            method,
+            method: "post",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
