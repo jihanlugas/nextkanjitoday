@@ -47,7 +47,7 @@ const Signin: NextPage<Props> = ({ }) => {
                                 return (
                                     <Form>
                                         <div className={"text-xl flex justify-center"}>
-                                            Sign In
+                                            Sign Inn
                                             </div>
                                         <div className="mb-4">
                                             <TextField
