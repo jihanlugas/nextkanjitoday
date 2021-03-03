@@ -3,14 +3,9 @@ import { error } from 'console';
 import { NextApiResponse } from 'next';
 
 
-type thisProps = {
-    requestPath: string,
-    payload: object,
-}
-
 const appPayLoad = {
-    appid: process.env.APP_ID,
-    appVersion: process.env.APP_VERSION
+    // appid: process.env.APP_ID,
+    // appVersion: process.env.APP_VERSION
 };
 
 class Api {
