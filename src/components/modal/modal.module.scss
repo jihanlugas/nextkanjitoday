@@ -1,0 +1,6 @@
+.container {
+  height: 75vh;
+  overflow-y: scroll;
+  @apply bg-white;
+  @apply p-4;
+}

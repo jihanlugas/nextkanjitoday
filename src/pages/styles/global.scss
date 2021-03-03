@@ -1,0 +1,19 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+button:focus {
+  @apply outline-none;
+}
+
+a:focus {
+  @apply outline-none;
+}
+
+input:focus {
+  @apply outline-none;
+}
+
+select:focus {
+  @apply outline-none;
+}
