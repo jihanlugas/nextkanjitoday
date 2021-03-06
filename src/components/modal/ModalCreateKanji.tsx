@@ -42,7 +42,7 @@ interface Props {
 
 const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0 }) => {
 
-    const [init, setInit] = useState({});
+    const [init, setInit] = useState<any>({});
 
     const submit = UseSubmitkanji()
     const form = UseKanjiForm()
