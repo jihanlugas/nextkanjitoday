@@ -9,7 +9,7 @@ export function withQuery(Component: NextPage) {
         return (
             <QueryClientProvider client={queryClient}>
                 <Component {...props} queryClient={queryClient} />
-                <ReactQueryDevtools />
+                {/* <ReactQueryDevtools /> */}
             </QueryClientProvider>
         )
     }

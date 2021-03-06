@@ -1,28 +1,34 @@
 export const JLPT = [
     {
-        "id": 1,
-        "key": 1,
+        "id": "N1",
         "name": "N1",
     },
     {
-        "id": 2,
-        "key": 2,
+        "id": "N2",
         "name": "N2",
     },
     {
-        "id": 3,
-        "key": 3,
+        "id": "N3",
         "name": "N3",
     },
     {
-        "id": 4,
-        "key": 4,
+        "id": "N4",
         "name": "N4",
     },
     {
-        "id": 5,
-        "key": 5,
+        "id": "N5",
         "name": "N5",
+    },
+];
+
+export const YOMI_TYPE = [
+    {
+        "id": "ONYOMI",
+        "name": "Onyomi",
+    },
+    {
+        "id": "KUNYOMI",
+        "name": "Kunyomi",
     },
 ];
 

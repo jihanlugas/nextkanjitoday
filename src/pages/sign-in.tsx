@@ -23,9 +23,12 @@ const Signin: NextPage<Props> = ({ }) => {
 
     const handleSubmit = (values: FormikValues) => {
         mutate(values, {
-            onSuccess: (data) => {
-                console.log('data => ', data)
-                Router.push("/dashboard")
+            onSuccess: (res) => {
+                console.log('res => ', res)
+                if (res.success) {
+                    Router.push("/dashboard")
+                }
+
             }
         })
     }
@@ -47,7 +50,7 @@ const Signin: NextPage<Props> = ({ }) => {
                                 return (
                                     <Form>
                                         <div className={"text-xl flex justify-center"}>
-                                            Sign In
+                                            Sign Inn
                                             </div>
                                         <div className="mb-4">
                                             <TextField
@@ -68,7 +71,7 @@ const Signin: NextPage<Props> = ({ }) => {
                                         <div className={""}>
                                             <ButtonSubmit
                                                 label={'Sign In'}
-
+                                                disabled={isLoading}
                                             />
                                         </div>
                                     </Form>

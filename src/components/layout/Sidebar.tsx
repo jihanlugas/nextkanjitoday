@@ -21,9 +21,9 @@ const Sidebar: NextPage<Props> = ({ onClickOverlay, show }) => {
 
     useEffect(() => {
         mutate(null, {
-            onSuccess: (data) => {
-                if (data.success) {
-                    setAuthMenu(data.payload)
+            onSuccess: (res) => {
+                if (res.success) {
+                    setAuthMenu(res.data)
                 }
             },
             onError: (err) => {
@@ -31,7 +31,6 @@ const Sidebar: NextPage<Props> = ({ onClickOverlay, show }) => {
             }
         })
     }, [])
-
 
     return (
         <div className={show ? "z-10 inset-0 overflow-y-auto fixed" : "hidden"} >

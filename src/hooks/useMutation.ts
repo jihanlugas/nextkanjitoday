@@ -3,8 +3,16 @@ import Router from "next/router"
 import { Api } from "../lib/Api"
 import { FormikValues } from "formik";
 
-const logout = (data: any) => {
-    if (data.logout) {
+interface Response {
+    status: boolean;
+    message: string;
+    data: any;
+    errors: any;
+}
+
+
+const logout = (res: Response) => {
+    if (res && res.errors && res.errors.code == 401) {
         Router.push('/sign-in')
     }
 }
@@ -15,32 +23,40 @@ export function UseLogin() {
 
 export function UseLogout() {
     return useMutation(() => Api.post("/logout"), {
-        onSuccess: (data) => {
-            logout(data)
+        onSuccess: (res) => {
+            logout(res)
         },
     })
 }
 
 export function UseAuth() {
     return useMutation(() => Api.post('/authorized'), {
-        onSuccess: (data) => {
-            logout(data)
+        onSuccess: (res) => {
+            logout(res)
         },
     })
 }
 
-export function UsePage() {
-    return useMutation(() => Api.post("/page/kanji"), {
-        onSuccess: (data) => {
-            logout(data)
+export function UsePage(path : string) {
+    return useMutation(() => Api.post(path), {
+        onSuccess: (res) => {
+            logout(res)
         },
     })
 }
 
 export function UseSubmitkanji() {
-    return useMutation((values: FormikValues) => Api.post("/kanji/store", values), {
-        onSuccess: (data) => {
-            logout(data)
+    return useMutation((values: FormikValues) => values.kanjiId === 0 ? Api.post("/kanji/store", values) : Api.put("/kanji/update", values), {
+        onSuccess: (res) => {
+            logout(res)
+        },
+    })
+}
+
+export function UseKanjiForm() {
+    return useMutation((kanjiId:number) => Api.post("/kanji/form", {kanjiId}), {
+        onSuccess: (res) => {
+            logout(res)
         },
     })
 }

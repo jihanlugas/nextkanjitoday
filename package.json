@@ -18,6 +18,7 @@
     "react-loading-skeleton": "^2.1.1",
     "react-query": "^3.9.8",
     "react-query-devtools": "^2.6.3",
+    "snake-camel": "^1.0.8",
     "yup": "^0.32.9"
   },
   "devDependencies": {
