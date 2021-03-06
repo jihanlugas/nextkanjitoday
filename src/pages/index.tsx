@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Main from '../components/layout/Main'; z
+import Main from '../components/layout/Main';
 
 
 const Hallo = ({ label }: { label: string }) => {
