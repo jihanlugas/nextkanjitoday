@@ -15,8 +15,8 @@ interface Props {
 const Signin: NextPage<Props> = ({ }) => {
 
     const initFormikValue = {
-        email: 'jihanlugas2@gmail.com',
-        password: '123456',
+        email: process.env.IS_PRODUCTION ? '' : 'jihanlugas2@gmail.com',
+        password: process.env.IS_PRODUCTION ? '' : '123456',
     }
 
     const { isLoading, mutate, error } = UseLogin()
@@ -50,7 +50,7 @@ const Signin: NextPage<Props> = ({ }) => {
                                 return (
                                     <Form>
                                         <div className={"text-xl flex justify-center"}>
-                                            Sign Inn
+                                            Sign In
                                             </div>
                                         <div className="mb-4">
                                             <TextField

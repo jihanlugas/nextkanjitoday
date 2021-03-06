@@ -18,7 +18,6 @@ const Header: NextPage<Props> = ({ onClickOverlay }) => {
         mutate(null, {
             onSuccess: (data) => {
                 Router.push("/sign-in")
-                console.log("data => ", data)
             },
             onError: (error) => {
                 console.log("error => ", error)

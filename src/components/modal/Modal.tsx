@@ -18,7 +18,7 @@ const Modal: NextPage<Props> = ({ children, show, onClickOverlay }) => {
                 </div>
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-full sm:max-w-xl lg:max-w-4xl" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
                     <div className={styles.container}>
-                        <div className="sm:flex sm:items-start w-full h-full">
+                        <div className="sm:flex sm:items-start w-full h-full ">
                             {children}
                         </div>
                     </div>
