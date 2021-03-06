@@ -15,8 +15,8 @@ interface Props {
 const Signin: NextPage<Props> = ({ }) => {
 
     const initFormikValue = {
-        email: process.env.IS_PRODUCTION ? '' : 'jihanlugas2@gmail.com',
-        password: process.env.IS_PRODUCTION ? '' : '123456',
+        email: process.env.IS_PRODUCTION || true ? '' : 'jihanlugas2@gmail.com',
+        password: process.env.IS_PRODUCTION || true ? '' : '123456',
     }
 
     const { isLoading, mutate, error } = UseLogin()
