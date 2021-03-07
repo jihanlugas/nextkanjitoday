@@ -41,6 +41,15 @@ interface Props {
 
 const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0 }) => {
 
+    const initDefault = {
+        kanjiId: 0,
+        word: "",
+        strokes: "",
+        jlpt: "",
+        kanjiyomis: [],
+        kanjimeans: [],
+    }
+
     const [init, setInit] = useState<any>({});
 
     const submit = UseSubmitkanji()
@@ -64,7 +73,7 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
 
     const handleAddyomi = (arrayHelpers: ArrayHelpers) => {
         arrayHelpers.push(kanjiyomi)
-        setKanjiyomi(defaultKanjiyomi)
+        setKanjiyomi({ ...defaultKanjiyomi, type: kanjiyomi.type })
     }
 
     const handleAddmean = (arrayHelpers: ArrayHelpers) => {
@@ -76,20 +85,19 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
         setKanjiyomi({ ...kanjiyomi, word: event.target.value })
     }
 
-    const handleChangeyomitype = (event) => {
-        setKanjiyomi({ ...kanjiyomi, type: event.target.value })
+    const handleChangeyomitype = (yomi) => {
+        setKanjiyomi({ ...kanjiyomi, type: yomi })
     }
 
     const handleChangemean = (event) => {
         setKanjimean({ ...kanjimean, mean: event.target.value })
     }
 
-
     const handleSubmit = (values: FormikValues, setErrors) => {
         submit.mutate(values, {
             onSuccess: (res) => {
-                console.log("res => ", res)
                 if (res.success) {
+                    setInit(initDefault)
                     onClickOverlay(0, true)
                 } else if (res.errors) {
                     res.errors.validate && setErrors(res.errors.validate)
@@ -103,14 +111,7 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
 
     useEffect(() => {
         if (selectedId === 0) {
-            setInit({
-                kanjiId: 0,
-                word: "",
-                strokes: "",
-                jlpt: "",
-                kanjiyomis: [],
-                kanjimeans: [],
-            })
+            setInit(initDefault)
         } else {
             form.mutate(selectedId, {
                 onSuccess: (res) => {
@@ -127,7 +128,7 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
     return (
         <Modal show={show} onClickOverlay={onClickOverlay}>
             <div className={"w-full h-full p-4"}>
-                {isEmptyObject(init) ? (
+                {isEmptyObject(init) || form.isLoading ? (
                     <div className={"w-full h-full flex justify-center items-center"}>
                         <AiOutlineLoading3Quarters className={"animate-spin"} size={"4em"} />
                     </div>
@@ -215,7 +216,34 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                     />
                                                                 </div>
                                                                 <div>
-                                                                    <select
+                                                                    <div>
+                                                                        <span>Select Yomi</span>
+                                                                    </div>
+                                                                    <div className={"w-full grid grid-cols-2 gap-4"}>
+                                                                        <div className={"cursor-pointer"} onClick={() => handleChangeyomitype(YOMI_TYPE[0].id)}>
+                                                                            {YOMI_TYPE[0].id === kanjiyomi.type ? (
+                                                                                <div className={"h-10 flex justify-center items-center border rounded text-gray-100 font-bold bg-green-600"}>
+                                                                                    {YOMI_TYPE[0].name}
+                                                                                </div>
+                                                                            ) : (
+                                                                                    <div className={"h-10 flex justify-center items-center border rounded font-bold bg-gray-200"}>
+                                                                                        {YOMI_TYPE[0].name}
+                                                                                    </div>
+                                                                                )}
+                                                                        </div>
+                                                                        <div className={"cursor-pointer"} onClick={() => handleChangeyomitype(YOMI_TYPE[1].id)}>
+                                                                            {YOMI_TYPE[1].id === kanjiyomi.type ? (
+                                                                                <div className={"h-10 flex justify-center items-center border rounded text-gray-100 font-bold bg-blue-600"}>
+                                                                                    {YOMI_TYPE[1].name}
+                                                                                </div>
+                                                                            ) : (
+                                                                                    <div className={"h-10 flex justify-center items-center border rounded font-bold bg-gray-200"}>
+                                                                                        {YOMI_TYPE[1].name}
+                                                                                    </div>
+                                                                                )}
+                                                                        </div>
+                                                                    </div>
+                                                                    {/* <select
                                                                         className={"w-full border-2 rounded h-10 px-2 bg-gray-50"}
                                                                         onChange={handleChangeyomitype}
                                                                         value={kanjiyomi.type}
@@ -223,7 +251,7 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                         {YOMI_TYPE.map((data, key) => (
                                                                             <option value={data.id} key={key} >{data.name}</option>
                                                                         ))}
-                                                                    </select>
+                                                                    </select> */}
                                                                 </div>
                                                                 <div>
                                                                     <button

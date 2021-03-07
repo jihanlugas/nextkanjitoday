@@ -1,7 +1,7 @@
 import axios, { CancelToken } from 'axios';
 import { error } from 'console';
 import { NextApiResponse } from 'next';
-import { toCamel } from "snake-camel";
+import { toCamel, toSnake } from "snake-camel";
 
 
 type thisProps = {
@@ -16,7 +16,8 @@ const appPayLoad = {
 
 class Api {
     static get = (requestPath: string, payload?: {}) => {
-        payload = { ...payload, ...appPayLoad };
+        payload = toSnake({ ...payload, ...appPayLoad });
+
         const url = "/api" + requestPath;
 
         const request = axios.request({
@@ -35,7 +36,8 @@ class Api {
     }
 
     static post = (requestPath: string, payload?: {}) => {
-        payload = { ...payload, ...appPayLoad };
+        payload = toSnake({ ...payload, ...appPayLoad });
+
         const url = "/api" + requestPath;
 
         const request = axios.request({
@@ -54,7 +56,8 @@ class Api {
     }
     
     static put = (requestPath: string, payload?: {}) => {
-        payload = { ...payload, ...appPayLoad };
+        payload = toSnake({ ...payload, ...appPayLoad });
+
         const url = "/api" + requestPath;
 
         const request = axios.request({
@@ -73,7 +76,8 @@ class Api {
     }
 
     static delete = (requestPath: string, payload?: {}) => {
-        payload = { ...payload, ...appPayLoad };
+        payload = toSnake({ ...payload, ...appPayLoad });
+
         const url = "/api" + requestPath;
 
         const request = axios.request({

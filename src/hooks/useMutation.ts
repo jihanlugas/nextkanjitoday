@@ -60,3 +60,21 @@ export function UseKanjiForm() {
         },
     })
 }
+
+
+
+export function UseSubmitword() {
+    return useMutation((values: FormikValues) => values.wordId === 0 ? Api.post("/word/store", values) : Api.put("/word/update", values), {
+        onSuccess: (res) => {
+            logout(res)
+        },
+    })
+}
+
+export function UseWordForm() {
+    return useMutation((wordId:number) => Api.post("/word/form", {wordId}), {
+        onSuccess: (res) => {
+            logout(res)
+        },
+    })
+}

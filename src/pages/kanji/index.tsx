@@ -58,7 +58,7 @@ const Kanji: NextPage<Props> = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                     {isLoading ? [0, 1, 2, 3, 4, 5].map((data, key) => (
                         <Skeleton className="h-14" key={key} />
-                    )) : kanji.map((data, key) => {
+                    )) : kanji.length > 0 ? kanji.map((data, key) => {
                         return (
                             <div className={"bg-gray-300 p-2 rounded flex flex-row"} key={key} onClick={() => onClickOverlay(data.kanjiId)}>
                                 <div className={"h-12 w-12 bg-gray-400 flex justify-center items-center rounded-full"}>
@@ -97,7 +97,7 @@ const Kanji: NextPage<Props> = () => {
                             </div>
                         )
                     }
-                    )}
+                    ) : (<div>No Data</div>)}
                 </div>
                 <ModalCreateKanji
                     show={show}

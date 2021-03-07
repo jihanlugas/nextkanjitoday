@@ -1,7 +1,7 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 export default createProxyMiddleware('/api', {
-    target: process.env.IS_PRODUCTION || true ? "http://kanjitoday.se-kawan.com" : "http://kanjitoday.web",
+    target: process.env.IS_PRODUCTION !== undefined ? "http://kanjitoday.se-kawan.com" : "http://kanjitoday.web",
     changeOrigin: true,
     headers: {
         "Accept": "application/json",
