@@ -33,6 +33,7 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
         wordId: 0,
         word: "",
         mean: "",
+        kana: "",
         hint: "",
     }
 
