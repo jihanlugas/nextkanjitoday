@@ -110,20 +110,24 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
     }
 
     useEffect(() => {
-        if (selectedId === 0) {
-            setInit(initDefault)
-        } else {
-            form.mutate(selectedId, {
-                onSuccess: (res) => {
-                    if (res.success) {
-                        setInit(res.data)
-                    } else if (res.errors) {
-                        console.log("res.errors => ", res.errors)
+        if (show) {
+            if (selectedId === 0) {
+                setInit(initDefault)
+            } else {
+                form.mutate(selectedId, {
+                    onSuccess: (res) => {
+                        if (res.success) {
+                            setInit(res.data)
+                        } else if (res.errors) {
+                            console.log("res.errors => ", res.errors)
+                        }
                     }
-                }
-            })
+                })
+            }
+        } else {
+            setInit({})
         }
-    }, [selectedId])
+    }, [selectedId, show])
 
     return (
         <Modal show={show} onClickOverlay={onClickOverlay}>
@@ -207,17 +211,8 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                         )}
                                                                 </div>
                                                                 <div>
-                                                                    <input
-                                                                        className={"w-full border-2 rounded h-10 px-2 bg-gray-50"}
-                                                                        type="text"
-                                                                        value={kanjiyomi.word}
-                                                                        onChange={handleChangeyomiword}
-                                                                        placeholder={"Add yomi"}
-                                                                    />
-                                                                </div>
-                                                                <div>
                                                                     <div>
-                                                                        <span>Select Yomi</span>
+                                                                        <span>Select Yomi type</span>
                                                                     </div>
                                                                     <div className={"w-full grid grid-cols-2 gap-4"}>
                                                                         <div className={"cursor-pointer"} onClick={() => handleChangeyomitype(YOMI_TYPE[0].id)}>
@@ -254,13 +249,25 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                     </select> */}
                                                                 </div>
                                                                 <div>
+                                                                    <input
+                                                                        className={"w-full border-2 rounded h-10 px-2 bg-gray-50"}
+                                                                        type="text"
+                                                                        value={kanjiyomi.word}
+                                                                        onChange={handleChangeyomiword}
+                                                                        placeholder={"Add yomi"}
+                                                                    // onSubmit={(e) => {
+                                                                    //     e.preventDefault()
+                                                                    // }}
+                                                                    />
+                                                                </div>
+                                                                <div>
                                                                     <button
-                                                                        type="button"
+                                                                        type="submit"
                                                                         onClick={() => handleAddyomi(arrayHelpers)}
                                                                         className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full hover:bg-green-500'}
                                                                     >
                                                                         Add yomi
-                                                    </button>
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         )
@@ -298,11 +305,14 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                         value={kanjimean.mean}
                                                                         onChange={handleChangemean}
                                                                         placeholder={"Add mean"}
+                                                                    // onSubmit={(e) => {
+                                                                    //     e.preventDefault()
+                                                                    // }}
                                                                     />
                                                                 </div>
                                                                 <div>
                                                                     <button
-                                                                        type="button"
+                                                                        type="submit"
                                                                         onClick={() => handleAddmean(arrayHelpers)}
                                                                         className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full hover:bg-green-500'}
                                                                     >
