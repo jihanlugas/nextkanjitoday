@@ -255,9 +255,9 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                         value={kanjiyomi.word}
                                                                         onChange={handleChangeyomiword}
                                                                         placeholder={"Add yomi"}
-                                                                    // onSubmit={(e) => {
-                                                                    //     e.preventDefault()
-                                                                    // }}
+                                                                        onSubmit={(e) => {
+                                                                            e.preventDefault()
+                                                                        }}
                                                                     />
                                                                 </div>
                                                                 <div>
@@ -305,9 +305,9 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                         value={kanjimean.mean}
                                                                         onChange={handleChangemean}
                                                                         placeholder={"Add mean"}
-                                                                    // onSubmit={(e) => {
-                                                                    //     e.preventDefault()
-                                                                    // }}
+                                                                        onSubmit={(e) => {
+                                                                            e.preventDefault()
+                                                                        }}
                                                                     />
                                                                 </div>
                                                                 <div>
