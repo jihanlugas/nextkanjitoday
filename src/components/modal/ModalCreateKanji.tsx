@@ -253,14 +253,11 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                         value={kanjiyomi.word}
                                                                         onChange={handleChangeyomiword}
                                                                         placeholder={"Add yomi"}
-                                                                        onSubmit={(e) => {
-                                                                            e.preventDefault()
-                                                                        }}
                                                                     />
                                                                 </div>
                                                                 <div>
                                                                     <button
-                                                                        type="submit"
+                                                                        type="button"
                                                                         onClick={() => handleAddyomi(arrayHelpers)}
                                                                         className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full hover:bg-green-500'}
                                                                     >
@@ -303,14 +300,11 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                                                                         value={kanjimean.mean}
                                                                         onChange={handleChangemean}
                                                                         placeholder={"Add mean"}
-                                                                        onSubmit={(e) => {
-                                                                            e.preventDefault()
-                                                                        }}
                                                                     />
                                                                 </div>
                                                                 <div>
                                                                     <button
-                                                                        type="submit"
+                                                                        type="button"
                                                                         onClick={() => handleAddmean(arrayHelpers)}
                                                                         className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full hover:bg-green-500'}
                                                                     >

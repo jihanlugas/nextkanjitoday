@@ -173,14 +173,11 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                                                                         value={hint.hint}
                                                                         onChange={handleChangehint}
                                                                         placeholder={"Add hint"}
-                                                                        onSubmit={(e) => {
-                                                                            e.preventDefault()
-                                                                        }}
                                                                     />
                                                                 </div>
                                                                 <div>
                                                                     <button
-                                                                        type="submit"
+                                                                        type="button"
                                                                         onClick={() => handleAddhint(arrayHelpers)}
                                                                         className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full hover:bg-green-500'}
                                                                     >

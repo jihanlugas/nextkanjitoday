@@ -7,18 +7,34 @@ import { withQuery } from '../../hoc/withQuery';
 import ModalCreateKanji from "../../components/modal/ModalCreateKanji";
 import { GoPlus } from 'react-icons/go'
 import Skeleton from 'react-loading-skeleton';
+import { isEmptyObject } from "../../utils/Validate";
 
 
 interface Props {
 
 }
 
+interface paginate {
+    page: number;
+}
+
 const Kanji: NextPage<Props> = () => {
 
-    const [kanji, setKanji] = useState<any[]>([]);
+    const defaultPaginate = {
+        page: 1
+    }
+
+    const [kanji, setKanji] = useState<{ [key: string]: any; }>({});
     const [show, setShow] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<number>(0);
     const [toogle, setToggle] = useState<boolean>(true);
+    const [paginate, setPaginate] = useState<any>(defaultPaginate)
+
+    const getPaginate = () => {
+        return {
+            page: paginate.page
+        }
+    }
 
     const onClickOverlay = (kanjiId: number = 0, refresh: boolean = false) => {
         setSelectedId(kanjiId)
@@ -31,13 +47,52 @@ const Kanji: NextPage<Props> = () => {
     const { isLoading, mutate } = UsePage("/page/kanji")
 
     useEffect(() => {
-        mutate(null, {
+        mutate(paginate, {
             onSuccess: (res) => {
-                if (res.success)
-                    setKanji(res.data.data)
+                if (res.success) {
+                    setKanji(res.data)
+                }
             }
         })
-    }, [toogle])
+    }, [toogle, paginate])
+
+    const Paginate = (data) => {
+        if (data.currentPage) {
+            return (
+                <div className={"flex flex-row"}>
+                    {data.currentPage !== 1 && (data.currentPage - 1) !== 1 && (
+                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: 1 })}>
+                            First
+                        </div>
+                    )}
+                    {data.currentPage !== 1 && (
+                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.currentPage - 1 })}>
+                            Prev
+                        </div>
+                    )}
+                    <div className={"p-2 border border-gray-400 rounded mr-2"}>
+                        Curr {data.currentPage}
+                    </div>
+                    <div className={"p-2 border border-gray-400 rounded mr-2"}>
+                        Curr {data.currentPage}
+                    </div>
+                    {data.currentPage + 1 !== data.lastPage && data.currentPage !== data.lastPage && (
+                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.currentPage + 1 })}>
+                            Next
+                        </div>
+                    )}
+                    {data.currentPage !== data.lastPage && (
+                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.lastPage })}>
+                            Last
+                        </div>
+                    )}
+                </div>
+            )
+        } else {
+            return null
+        }
+    }
+
 
     return (
         <User>
@@ -55,10 +110,10 @@ const Kanji: NextPage<Props> = () => {
                 </button>
             </div>
             <div className={"flex flex-col px-4 py-2 w-full"}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mb-4">
                     {isLoading ? [0, 1, 2, 3, 4, 5].map((data, key) => (
                         <Skeleton className="h-14" key={key} />
-                    )) : kanji.length > 0 ? kanji.map((data, key) => {
+                    )) : kanji.data && kanji.data.length > 0 ? kanji.data.map((data, key) => {
                         return (
                             <div className={"bg-gray-300 p-2 rounded flex flex-row"} key={key} onClick={() => onClickOverlay(data.kanjiId)}>
                                 <div className={"h-12 w-12 bg-gray-400 flex justify-center items-center rounded-full"}>
@@ -99,6 +154,9 @@ const Kanji: NextPage<Props> = () => {
                     }
                     ) : (<div>No Data</div>)}
                 </div>
+                {!isEmptyObject(kanji) && (
+                    <Paginate data={kanji} />
+                )}
                 <ModalCreateKanji
                     show={show}
                     onClickOverlay={onClickOverlay}

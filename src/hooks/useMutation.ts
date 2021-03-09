@@ -38,7 +38,7 @@ export function UseAuth() {
 }
 
 export function UsePage(path : string) {
-    return useMutation(() => Api.post(path), {
+    return useMutation((paginate: any) => Api.post(path, paginate), {
         onSuccess: (res) => {
             logout(res)
         },
