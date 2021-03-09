@@ -97,7 +97,7 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
         submit.mutate(values, {
             onSuccess: (res) => {
                 if (res.success) {
-                    setInit(initDefault)
+                    setInit({})
                     onClickOverlay(0, true)
                 } else if (res.errors) {
                     res.errors.validate && setErrors(res.errors.validate)
@@ -124,8 +124,6 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
                     }
                 })
             }
-        } else {
-            setInit({})
         }
     }, [selectedId, show])
 

@@ -68,7 +68,7 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
         submit.mutate(values, {
             onSuccess: (res) => {
                 if (res.success) {
-                    setInit(initDefault)
+                    setInit({})
                     onClickOverlay(0, true)
                 } else if (res.errors) {
                     res.errors.validate && setErrors(res.errors.validate)
@@ -95,8 +95,6 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                     }
                 })
             }
-        } else {
-            setInit({})
         }
     }, [selectedId, show])
 
