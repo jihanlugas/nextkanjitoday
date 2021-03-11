@@ -1,19 +1,19 @@
 import { NextPage, } from "next";
 import Modal from "./Modal";
 import { Form, Formik, FieldArray, FormikValues, ArrayHelpers, FormikErrors } from "formik";
-import TextAreaField from "../formik/TextAreaField";
 import ButtonSubmit from "../formik/ButtonSubmit";
 import Dropdown from "../formik/Dropdown";
-import { UseSubmitword, UseWordForm } from "../../hooks/useMutation";
+import { UseSubmitvocabulary, UseVocabularyForm } from "../../hooks/useMutation";
 import { JLPT, YOMI_TYPE } from "../../utils/Constant";
 import { TiTimes } from 'react-icons/ti'
 import { useEffect, useState } from "react";
 import * as Yup from 'yup';
 import { isEmptyObject } from "../../utils/Validate";
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import TextField from "../formik/TextField";
 
 let schema = Yup.object().shape({
-    word: Yup.string().required(),
+    vocabulary: Yup.string().required(),
     kana: Yup.string().required(),
     mean: Yup.string().required(),
     hints: Yup.array().of(
@@ -38,11 +38,11 @@ interface Props {
 }
 
 
-const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0, notif }) => {
+const ModalCreateVocabulary: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0, notif }) => {
 
     const initDefault = {
-        wordId: 0,
-        word: "",
+        vocabularyId: 0,
+        vocabulary: "",
         mean: "",
         kana: "",
         hints: [],
@@ -55,8 +55,8 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
 
     const [init, setInit] = useState<any>({});
 
-    const submit = UseSubmitword()
-    const form = UseWordForm()
+    const submit = UseSubmitvocabulary()
+    const form = UseVocabularyForm()
 
     const [hint, setHint] = useState(defaultHint)
 
@@ -128,28 +128,28 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                                     </div>
                                         <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"}>
                                             <div className={"flex w-full"}>
-                                                <TextAreaField
-                                                    label={"Word"}
-                                                    name={"word"}
+                                                <TextField
+                                                    label={"Vocabulary"}
+                                                    name={"vocabulary"}
                                                     type={"text"}
                                                 />
                                             </div>
                                             <div className={"flex w-full"}>
-                                                <TextAreaField
+                                                <TextField
                                                     label={"Kana"}
                                                     name={"kana"}
                                                     type={"text"}
                                                 />
                                             </div>
                                             <div className={"flex w-full"}>
-                                                <TextAreaField
+                                                <TextField
                                                     label={"Mean"}
                                                     name={"mean"}
                                                     type={"text"}
                                                 />
                                             </div>
                                         </div>
-                                        <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"}>
+                                        {/* <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"}>
                                             <div className={"flex w-full border rounded p-4"}>
                                                 <FieldArray
                                                     name={"hints"}
@@ -197,7 +197,7 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                                                     }}
                                                 </FieldArray>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         {/* <div className={"flex mb-4"}>
                                             {JSON.stringify(errors, null, 4)}
                                         </div>
@@ -221,4 +221,4 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
     )
 }
 
-export default ModalCreateWord;
+export default ModalCreateVocabulary;

@@ -36,10 +36,16 @@ interface Props {
     show: boolean;
     onClickOverlay: Function;
     selectedId: number;
+    notif: {
+        error: Function,
+        info: Function,
+        success: Function,
+        warning: Function,
+    };
 }
 
 
-const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0 }) => {
+const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0, notif }) => {
 
     const initDefault = {
         kanjiId: 0,
@@ -97,9 +103,11 @@ const ModalCreateKanji: NextPage<Props> = ({ show, onClickOverlay, selectedId = 
         submit.mutate(values, {
             onSuccess: (res) => {
                 if (res.success) {
+                    notif.success(res.message)
                     setInit({})
                     onClickOverlay(0, true)
                 } else if (res.errors) {
+                    notif.error(res.message)
                     res.errors.validate && setErrors(res.errors.validate)
                 }
             },

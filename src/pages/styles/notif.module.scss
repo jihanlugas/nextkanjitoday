@@ -1,0 +1,104 @@
+// @media (min-width: 768px) {
+//   .notif {
+//     @apply -ml-16;
+//   }
+// }
+
+// .notif {
+//   @apply fixed;
+//   @apply -mt-24;
+//   z-index: 10000;
+//   @apply text-gray-200;
+//   transition: margin 400;
+
+//   &.active {
+//     @apply mt-4;
+//   }
+
+//   & .notifContainer {
+//     @apply fixed;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     @apply flex;
+//     @apply flex-col;
+//     @apply w-full;
+//     @apply max-w-2xl;
+//     @apply py-2;
+//     @apply px-4;
+//     @apply rounded-lg;
+//     transition: background-color 800ms;
+
+//     &.error {
+//       @apply bg-red-500;
+//     }
+//     &.info {
+//       @apply bg-blue-500;
+//     }
+//     &.success {
+//       @apply bg-green-500;
+//     }
+//     &.warning {
+//       @apply bg-yellow-500;
+//     }
+
+//     & .title {
+//       @apply text-lg;
+//       @apply font-bold;
+//     }
+//     & .message {
+//       @apply text-gray-200;
+//     }
+//   }
+// }
+
+.notif {
+  @apply fixed;
+  @apply -mt-24;
+  z-index: 10000;
+  @apply text-gray-200;
+  transition: margin 400;
+  @apply w-full;
+
+  &.active {
+    @apply mt-8;
+  }
+
+  & .notifContainer {
+    @apply px-4;
+    @apply w-full;
+    @apply flex;
+    @apply justify-center;
+
+    & .notifContent {
+      @apply flex;
+      @apply flex-col;
+      @apply w-full;
+      @apply max-w-2xl;
+      @apply py-2;
+      @apply px-4;
+      @apply rounded-lg;
+      transition: background-color 800ms;
+
+      &.error {
+        @apply bg-red-500;
+      }
+      &.info {
+        @apply bg-blue-500;
+      }
+      &.success {
+        @apply bg-green-500;
+      }
+      &.warning {
+        @apply bg-yellow-500;
+      }
+
+      & .title {
+        @apply text-lg;
+        @apply font-bold;
+      }
+      & .message {
+        @apply text-gray-200;
+      }
+    }
+  }
+}

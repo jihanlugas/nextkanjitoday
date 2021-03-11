@@ -37,7 +37,6 @@ class Api {
 
     static post = (requestPath: string, payload?: {}) => {
         payload = toSnake({ ...payload, ...appPayLoad });
-
         const url = "/api" + requestPath;
 
         const request = axios.request({
@@ -51,6 +50,18 @@ class Api {
             timeout: 20000,
             responseType: 'json',
         }).then((res: { data: any; }) => toCamel(res.data), (error: { response: { data: any; status: any; }; }) => error.response.data);
+
+        // const request = fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "Accept": "application/json",
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(payload)
+        // }).then(data => toCamel(data.json()))
+        // .catch((error) => {
+        //     console.error('Error:', error);
+        // });
 
         return request;
     }

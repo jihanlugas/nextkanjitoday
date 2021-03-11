@@ -8,27 +8,36 @@ import ModalCreateWord from "../../components/modal/ModalCreateWord";
 import { GoPlus } from 'react-icons/go'
 import Skeleton from 'react-loading-skeleton';
 import { isEmptyObject } from "../../utils/Validate";
+import { withNotif } from '../../hoc/withNotif';
 
 
 interface Props {
-
+    notif: {
+        error: Function,
+        info: Function,
+        success: Function,
+        warning: Function,
+    }
 }
+
 
 interface paginate {
     page: number;
+    perPage: number;
 }
 
-const Word: NextPage<Props> = () => {
+const Word: NextPage<Props> = ({ notif }) => {
 
     const defaultPaginate = {
-        page: 1
+        page: 1,
+        perPage: 10,
     }
 
     const [word, setWord] = useState<{ [key: string]: any; }>({});
     const [show, setShow] = useState<boolean>(false);
     const [selectedId, setSelectedId] = useState<number>(0);
     const [toogle, setToggle] = useState<boolean>(true);
-    const [paginate, setPaginate] = useState<any>(defaultPaginate)
+    const [paginate, setPaginate] = useState<paginate>(defaultPaginate)
 
     const onClickOverlay = (wordId: number = 0, refresh: boolean = false) => {
         setSelectedId(wordId)
@@ -49,8 +58,8 @@ const Word: NextPage<Props> = () => {
         })
     }, [toogle, paginate])
 
-    const Paginate = (data) => {
-        if (data.currentPage) {
+    const Paginate = ({ data }) => {
+        if (data.currentPage !== data.lastPage) {
             return (
                 <div className={"flex flex-row"}>
                     {data.currentPage !== 1 && (data.currentPage - 1) !== 1 && (
@@ -95,7 +104,14 @@ const Word: NextPage<Props> = () => {
             <div className={"flex px-4 py-2 w-full"}>
                 <span className="text-xl py-2">Word</span>
             </div>
-            <div className={"flex px-4 py-2 w-full justify-end"}>
+            <div className={"flex px-4 py-2 w-full justify-between items-center"}>
+                <div className={""}>
+                    <select className={"p-2 w-24 rounded"} name="" id="" onChange={(event) => setPaginate({ ...paginate, perPage: parseInt(event.target.value) })}>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
                 <button className={"bg-green-400 p-2 rounded text-gray-100 font-bold flex items-center"} onClick={() => onClickOverlay()}>
                     <span><GoPlus className={"mr-2 font-bold"} size={"1.2em"} /></span>
                     <span>Add Word</span>
@@ -133,11 +149,12 @@ const Word: NextPage<Props> = () => {
                     show={show}
                     onClickOverlay={onClickOverlay}
                     selectedId={selectedId}
+                    notif={notif}
                 />
             </div>
         </User>
     )
 }
 
-export default withQuery(Word)
+export default withNotif(withQuery(Word))
 

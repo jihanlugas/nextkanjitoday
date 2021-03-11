@@ -61,8 +61,6 @@ export function UseKanjiForm() {
     })
 }
 
-
-
 export function UseSubmitword() {
     return useMutation((values: FormikValues) => values.wordId === 0 ? Api.post("/word/store", values) : Api.put("/word/update", values), {
         onSuccess: (res) => {
@@ -73,6 +71,22 @@ export function UseSubmitword() {
 
 export function UseWordForm() {
     return useMutation((wordId:number) => Api.post("/word/form", {wordId}), {
+        onSuccess: (res) => {
+            logout(res)
+        },
+    })
+}
+
+export function UseSubmitvocabulary() {
+    return useMutation((values: FormikValues) => values.vocabularyId === 0 ? Api.post("/vocabulary/store", values) : Api.put("/vocabulary/update", values), {
+        onSuccess: (res) => {
+            logout(res)
+        },
+    })
+}
+
+export function UseVocabularyForm() {
+    return useMutation((vocabularyId:number) => Api.post("/vocabulary/form", {vocabularyId}), {
         onSuccess: (res) => {
             logout(res)
         },

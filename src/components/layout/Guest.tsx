@@ -1,7 +1,14 @@
-import { Fragment } from 'react'
+import { NextPage } from 'next';
+import { AppContext } from 'next/app';
+import React from 'react'
 import Main from "./Main"
 
-const Guest = ({ children }: { children: React.ReactNode }) => {
+
+interface Props {
+    children: React.ReactNode
+}
+
+const Guest: NextPage<Props> = ({ children }) => {
     return (
         <Main>
             <div className="flex">

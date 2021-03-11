@@ -4,6 +4,6 @@ module.exports = {
     APP_VERSION: 1,
     API_END_POINT: 'http://kanjitoday.web',
     API_NAME: 'Kanji Today',
-    IS_PRODUCTION: false,
+    // IS_PRODUCTION: true,
   },
 }

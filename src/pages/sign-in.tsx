@@ -1,4 +1,5 @@
 import Head from "next/head";
+import React from 'react';
 import Guest from "../components/layout/Guest";
 import { Form, Formik, FormikValues } from 'formik';
 import TextField from "../components/formik/TextField";
@@ -7,12 +8,24 @@ import Router from "next/router";
 import { withQuery } from "../hoc/withQuery";
 import { UseLogin } from "../hooks/useMutation";
 import { NextPage } from "next";
+import { withNotif } from "../hoc/withNotif";
+import * as Yup from 'yup';
 
 interface Props {
-
+    notif: {
+        error: Function,
+        info: Function,
+        success: Function,
+        warning: Function,
+    }
 }
 
-const Signin: NextPage<Props> = ({ }) => {
+let schema = Yup.object().shape({
+    email: Yup.string().email().required(),
+    password: Yup.string().required(),
+});
+
+const Signin: NextPage<Props> = ({ notif }) => {
 
     const initFormikValue = {
         email: process.env.IS_PRODUCTION !== undefined ? '' : 'jihanlugas2@gmail.com',
@@ -24,15 +37,14 @@ const Signin: NextPage<Props> = ({ }) => {
     const handleSubmit = (values: FormikValues) => {
         mutate(values, {
             onSuccess: (res) => {
-                console.log('res => ', res)
                 if (res.success) {
                     Router.push("/dashboard")
+                } else if (res.errors) {
+                    notif.error(res.errors.message)
                 }
-
             }
         })
     }
-
 
     return (
         <Guest>
@@ -44,6 +56,8 @@ const Signin: NextPage<Props> = ({ }) => {
                     <div className="bg-white rounded-xl p-4 shadow-lg">
                         <Formik
                             initialValues={initFormikValue}
+                            validationSchema={schema}
+                            enableReinitialize={true}
                             onSubmit={handleSubmit}
                         >
                             {() => {
@@ -85,4 +99,4 @@ const Signin: NextPage<Props> = ({ }) => {
     );
 };
 
-export default withQuery(Signin);
+export default withNotif(withQuery(Signin));
