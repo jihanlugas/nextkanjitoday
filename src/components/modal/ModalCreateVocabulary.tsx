@@ -11,11 +11,13 @@ import * as Yup from 'yup';
 import { isEmptyObject } from "../../utils/Validate";
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import TextField from "../formik/TextField";
+import TextAreaField from "../formik/TextAreaField";
 
 let schema = Yup.object().shape({
     vocabulary: Yup.string().required(),
     kana: Yup.string().required(),
     mean: Yup.string().required(),
+    notes: Yup.string(),
     hints: Yup.array().of(
         Yup.object().shape({
             hintId: Yup.number().positive().integer(),
@@ -45,6 +47,7 @@ const ModalCreateVocabulary: NextPage<Props> = ({ show, onClickOverlay, selected
         vocabulary: "",
         mean: "",
         kana: "",
+        notes: "",
         hints: [],
     }
 
@@ -148,63 +151,14 @@ const ModalCreateVocabulary: NextPage<Props> = ({ show, onClickOverlay, selected
                                                     type={"text"}
                                                 />
                                             </div>
-                                        </div>
-                                        {/* <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"}>
-                                            <div className={"flex w-full border rounded p-4"}>
-                                                <FieldArray
-                                                    name={"hints"}
-                                                >
-                                                    {(arrayHelpers) => {
-                                                        return (
-                                                            <div className={"w-full grid grid-cols-1 gap-4"}>
-                                                                <div>Hint</div>
-                                                                <div className={"flex w-full flex-wrap flex-row p-2 border rounded"}>
-                                                                    {values.hints && values.hints.length > 0 ? (
-                                                                        values.hints.map((hint, key) => (
-                                                                            <div className={"flex flex-row items-center bg-gray-600 rounded px-1 mx-1 mb-1 h-6"} key={key}>
-                                                                                <div className={"text-gray-100 text-sm font-bold"}>
-                                                                                    {hint.hint}
-                                                                                </div>
-                                                                                <div className={"text-gray-100 text-sm font-bold ml-2"} onClick={() => arrayHelpers.remove(key)}>
-                                                                                    <TiTimes size={"1.5em"} />
-                                                                                </div>
-                                                                            </div>
-                                                                        ))
-                                                                    ) : (
-                                                                            <div>No Data Hint</div>
-                                                                        )}
-                                                                </div>
-                                                                <div>
-                                                                    <input
-                                                                        className={"w-full border-2 rounded h-10 px-2 bg-gray-50"}
-                                                                        type="text"
-                                                                        value={hint.hint}
-                                                                        onChange={handleChangehint}
-                                                                        placeholder={"Add hint"}
-                                                                    />
-                                                                </div>
-                                                                <div>
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={() => handleAddhint(arrayHelpers)}
-                                                                        className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full hover:bg-green-500'}
-                                                                    >
-                                                                        Add Hint
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    }}
-                                                </FieldArray>
+                                            <div className={"flex w-full"}>
+                                                <TextAreaField
+                                                    label={"Notes"}
+                                                    name={"notes"}
+                                                    type={"text"}
+                                                />
                                             </div>
-                                        </div> */}
-                                        {/* <div className={"flex mb-4"}>
-                                            {JSON.stringify(errors, null, 4)}
                                         </div>
-
-                                        <div className={"flex mb-4"}>
-                                            {JSON.stringify(values, null, 4)}
-                                        </div> */}
                                         <div className={"flex mb-4"}>
                                             <ButtonSubmit
                                                 label={"Save"}

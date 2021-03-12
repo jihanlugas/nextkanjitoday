@@ -122,7 +122,6 @@ const Vocabulary: NextPage<Props> = ({ notif }) => {
                     {isLoading ? [0, 1, 2, 3, 4, 5].map((data, key) => (
                         <Skeleton className="h-14" key={key} />
                     )) : vocabulary.data && vocabulary.data.length > 0 ? vocabulary.data.map((data, key) => {
-                        console.log("data ", data)
                         return (
                             <div className={"bg-gray-300 p-2 rounded flex flex-col"} key={key} onClick={() => onClickOverlay(data.vocabularyId)}>
                                 <div className={"bg-gray-600 rounded p-1"}>
@@ -133,8 +132,11 @@ const Vocabulary: NextPage<Props> = ({ notif }) => {
                                         {data.vocabulary}
                                     </div>
                                 </div>
-                                <div>
+                                <div className={"font-bold"}>
                                     {data.mean}
+                                </div>
+                                <div className={"text-sm"}>
+                                    {data.notes}
                                 </div>
                             </div>
                         )
