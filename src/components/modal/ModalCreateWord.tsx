@@ -124,8 +124,8 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                                 return (
                                     <Form className={"flex flex-col w-full"}>
                                         <div className={"flex justify-between items-center text-xl mb-2"}>
-                                            Create
-                                    </div>
+                                            Word
+                                        </div>
                                         <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"}>
                                             <div className={"flex w-full"}>
                                                 <TextAreaField
@@ -187,7 +187,7 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => handleAddhint(arrayHelpers)}
-                                                                        className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full hover:bg-green-500'}
+                                                                        className={'bg-green-400 h-10 rounded-md text-gray-50 font-bold px-4 w-full'}
                                                                     >
                                                                         Add Hint
                                                                     </button>

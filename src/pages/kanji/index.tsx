@@ -6,9 +6,10 @@ import { UsePage } from '../../hooks/useMutation';
 import { withQuery } from '../../hoc/withQuery';
 import ModalCreateKanji from "../../components/modal/ModalCreateKanji";
 import { GoPlus } from 'react-icons/go'
-import Skeleton from 'react-loading-skeleton';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { isEmptyObject } from "../../utils/Validate";
 import { withNotif } from '../../hoc/withNotif';
+import { GridView } from "../../components/widget/Pagination"
 
 
 interface Props {
@@ -58,40 +59,7 @@ const Kanji: NextPage<Props> = ({ notif }) => {
         })
     }, [toogle, paginate])
 
-
-    const Paginate = ({ data }) => {
-        if (data.currentPage !== data.lastPage) {
-            return (
-                <div className={"flex flex-row"}>
-                    {data.currentPage !== 1 && (data.currentPage - 1) !== 1 && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: 1 })}>
-                            First
-                        </div>
-                    )}
-                    {data.currentPage !== 1 && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.currentPage - 1 })}>
-                            Prev
-                        </div>
-                    )}
-                    <div className={"p-2 border border-gray-400 rounded mr-2"}>
-                        Curr {data.currentPage}
-                    </div>
-                    {data.currentPage + 1 !== data.lastPage && data.currentPage !== data.lastPage && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.currentPage + 1 })}>
-                            Next
-                        </div>
-                    )}
-                    {data.currentPage !== data.lastPage && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.lastPage })}>
-                            Last
-                        </div>
-                    )}
-                </div>
-            )
-        } else {
-            return null
-        }
-    }
+    const gridView = GridView(paginate, setPaginate);
 
     return (
         <User>
@@ -102,67 +70,59 @@ const Kanji: NextPage<Props> = ({ notif }) => {
             <div className={"flex px-4 py-2 w-full"}>
                 <span className="text-xl py-2">Kanji</span>
             </div>
-            <div className={"flex px-4 py-2 w-full justify-between items-center"}>
-                <div className={""}>
-                    <select className={"p-2 w-24 rounded"} name="" id="" onChange={(event) => setPaginate({ ...paginate, perPage: parseInt(event.target.value) })}>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
+            <div className={"flex px-4 py-2 w-full justify-end"}>
                 <button className={"bg-green-400 p-2 rounded text-gray-100 font-bold flex items-center"} onClick={() => onClickOverlay()}>
                     <span><GoPlus className={"mr-2 font-bold"} size={"1.2em"} /></span>
-                    <span>Add Kanji</span>
+                    <span>Create</span>
                 </button>
             </div>
             <div className={"flex flex-col px-4 py-2 w-full"}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mb-4">
-                    {isLoading ? [0, 1, 2, 3, 4, 5].map((data, key) => (
-                        <Skeleton className="h-14" key={key} />
-                    )) : kanji.data && kanji.data.length > 0 ? kanji.data.map((data, key) => {
+                <gridView.grid>
+                    {isLoading ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((data) => (
+                        <gridView.loading key={data} />
+                    )) : kanji.data && kanji.data.map((data, key) => {
                         return (
-                            <div className={"bg-gray-300 p-2 rounded flex flex-row"} key={key} onClick={() => onClickOverlay(data.kanjiId)}>
-                                <div className={"h-12 w-12 bg-gray-400 flex justify-center items-center rounded-full"}>
-                                    <div className={"text-2xl font-light"}>
-                                        {data.word}
+                            <gridView.data key={key} onClick={() => onClickOverlay(data.kanjiId)}>
+                                <div className={"flex flex-row"}>
+                                    <div className={"h-12 w-12 bg-gray-600 flex justify-center items-center rounded-full"}>
+                                        <div className={"text-2xl font-light text-gray-100"}>
+                                            {data.word}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="flex flex-col">
-                                    <div className="flex flex-row mb-1">
-                                        {data.kanjiyomis.map((kanjiyomi) => {
-                                            if (kanjiyomi.type === 'ONYOMI') {
-                                                return (
-                                                    <div className="bg-green-600 rounded px-1 mx-1 text-gray-100 text-sm font-bold" key={kanjiyomi.kanjiyomiId}>
-                                                        {kanjiyomi.word}
-                                                    </div>
-                                                )
-                                            } else {
-                                                return (
-                                                    <div className="bg-blue-600 rounded px-1 mx-1 text-gray-100 text-sm font-bold" key={kanjiyomi.kanjiyomiId}>
-                                                        {kanjiyomi.word}
-                                                    </div>
-                                                )
-                                            }
-                                        })}
-                                    </div>
-                                    <div>
-                                        <div className="px-1 mx-1 text-sm flex flex-col">
-                                            {data.kanjimeans.map((kanjimean) => {
-                                                return (
-                                                    <span key={kanjimean.kanjimeanId}>{kanjimean.mean}</span>
-                                                )
+                                    <div className="flex flex-col">
+                                        <div className="flex flex-row mb-1">
+                                            {data.kanjiyomis.map((kanjiyomi) => {
+                                                if (kanjiyomi.type === 'ONYOMI') {
+                                                    return (
+                                                        <div className="bg-green-600 rounded px-1 mx-1 text-gray-100 text-sm font-bold" key={kanjiyomi.kanjiyomiId}>
+                                                            {kanjiyomi.word}
+                                                        </div>
+                                                    )
+                                                } else {
+                                                    return (
+                                                        <div className="bg-blue-600 rounded px-1 mx-1 text-gray-100 text-sm font-bold" key={kanjiyomi.kanjiyomiId}>
+                                                            {kanjiyomi.word}
+                                                        </div>
+                                                    )
+                                                }
                                             })}
+                                        </div>
+                                        <div>
+                                            <div className="px-1 mx-1 text-sm flex flex-col">
+                                                {data.kanjimeans.map((kanjimean) => {
+                                                    return (
+                                                        <span key={kanjimean.kanjimeanId}>{kanjimean.mean}</span>
+                                                    )
+                                                })}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </gridView.data>
                         )
-                    }
-                    ) : (<div>No Data</div>)}
-                </div>
-                {!isEmptyObject(kanji) && (
-                    <Paginate data={kanji} />
-                )}
+                    })}
+                </gridView.grid>
+                <gridView.paginate data={kanji} />
                 <ModalCreateKanji
                     show={show}
                     onClickOverlay={onClickOverlay}

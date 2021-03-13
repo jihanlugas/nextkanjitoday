@@ -9,7 +9,7 @@ import { GoPlus } from 'react-icons/go'
 import Skeleton from 'react-loading-skeleton';
 import { isEmptyObject } from "../../utils/Validate";
 import { withNotif } from '../../hoc/withNotif';
-
+import { GridView } from "../../components/widget/Pagination"
 
 interface Props {
     notif: {
@@ -58,42 +58,7 @@ const Vocabulary: NextPage<Props> = ({ notif }) => {
         })
     }, [toogle, paginate])
 
-    const Paginate = ({ data }) => {
-        if (data.currentPage !== data.lastPage) {
-            return (
-                <div className={"flex flex-row"}>
-                    {data.currentPage !== 1 && (data.currentPage - 1) !== 1 && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: 1 })}>
-                            First
-                        </div>
-                    )}
-                    {data.currentPage !== 1 && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.currentPage - 1 })}>
-                            Prev
-                        </div>
-                    )}
-                    <div className={"p-2 border border-gray-400 rounded mr-2"}>
-                        Curr {data.currentPage}
-                    </div>
-                    <div className={"p-2 border border-gray-400 rounded mr-2"}>
-                        Curr {data.currentPage}
-                    </div>
-                    {data.currentPage + 1 !== data.lastPage && data.currentPage !== data.lastPage && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.currentPage + 1 })}>
-                            Next
-                        </div>
-                    )}
-                    {data.currentPage !== data.lastPage && (
-                        <div className={"p-2 border border-gray-400 rounded mr-2"} onClick={() => setPaginate({ ...paginate, page: data.lastPage })}>
-                            Last
-                        </div>
-                    )}
-                </div>
-            )
-        } else {
-            return null
-        }
-    }
+    const gridView = GridView(paginate, setPaginate);
 
     return (
         <User>
@@ -104,47 +69,40 @@ const Vocabulary: NextPage<Props> = ({ notif }) => {
             <div className={"flex px-4 py-2 w-full"}>
                 <span className="text-xl py-2">Vocabulary</span>
             </div>
-            <div className={"flex px-4 py-2 w-full justify-between items-center"}>
-                <div className={""}>
-                    <select className={"p-2 w-24 rounded"} name="" id="" onChange={(event) => setPaginate({ ...paginate, perPage: parseInt(event.target.value) })}>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                </div>
+            <div className={"flex px-4 py-2 w-full justify-end items-center"}>
                 <button className={"bg-green-400 p-2 rounded text-gray-100 font-bold flex items-center"} onClick={() => onClickOverlay()}>
                     <span><GoPlus className={"mr-2 font-bold"} size={"1.2em"} /></span>
-                    <span>Add Vocabulary</span>
+                    <span>Create</span>
                 </button>
             </div>
             <div className={"flex flex-col px-4 py-2 w-full"}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mb-4">
-                    {isLoading ? [0, 1, 2, 3, 4, 5].map((data, key) => (
-                        <Skeleton className="h-14" key={key} />
-                    )) : vocabulary.data && vocabulary.data.length > 0 ? vocabulary.data.map((data, key) => {
+                <gridView.grid>
+                    {isLoading ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((data) => (
+                        <gridView.loading key={data} />
+                    )) : vocabulary.data && vocabulary.data.map((data, key) => {
                         return (
-                            <div className={"bg-gray-300 p-2 rounded flex flex-col"} key={key} onClick={() => onClickOverlay(data.vocabularyId)}>
-                                <div className={"bg-gray-600 rounded p-1"}>
-                                    <div className={"text-gray-100 text-xs"}>
-                                        {data.kana}
+                            <gridView.data key={key} onClick={() => onClickOverlay(data.vocabularyId)}>
+                                <div className={"flex flex-col"}>
+                                    <div className={"bg-gray-600 rounded p-1"}>
+                                        <div className={"text-gray-100 text-xs"}>
+                                            {data.kana}
+                                        </div>
+                                        <div className={"text-gray-100 text-xl"}>
+                                            {data.vocabulary}
+                                        </div>
                                     </div>
-                                    <div className={"text-gray-100 text-xl"}>
-                                        {data.vocabulary}
+                                    <div className={"font-bold"}>
+                                        {data.mean}
+                                    </div>
+                                    <div className={"text-sm"}>
+                                        {data.notes}
                                     </div>
                                 </div>
-                                <div className={"font-bold"}>
-                                    {data.mean}
-                                </div>
-                                <div className={"text-sm"}>
-                                    {data.notes}
-                                </div>
-                            </div>
+                            </gridView.data>
                         )
-                    }) : (<div>No Data</div>)}
-                </div>
-                {!isEmptyObject(vocabulary) && (
-                    <Paginate data={vocabulary} />
-                )}
+                    })}
+                </gridView.grid>
+                <gridView.paginate data={vocabulary} />
                 <ModalCreateVocabulary
                     show={show}
                     onClickOverlay={onClickOverlay}

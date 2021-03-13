@@ -127,8 +127,8 @@ const ModalCreateVocabulary: NextPage<Props> = ({ show, onClickOverlay, selected
                                 return (
                                     <Form className={"flex flex-col w-full"}>
                                         <div className={"flex justify-between items-center text-xl mb-2"}>
-                                            Create
-                                    </div>
+                                            Vocabulary
+                                        </div>
                                         <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"}>
                                             <div className={"flex w-full"}>
                                                 <TextField

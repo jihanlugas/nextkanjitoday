@@ -1,0 +1,14 @@
+.pageaction {
+  @apply h-8;
+  @apply w-8;
+  @apply flex;
+  @apply justify-center;
+  @apply items-center;
+  @apply border;
+  @apply rounded;
+
+  &.disable {
+    @apply bg-gray-400;
+    @apply text-gray-700;
+  }
+}
