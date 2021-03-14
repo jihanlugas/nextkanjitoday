@@ -45,6 +45,7 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
         word: "",
         mean: "",
         kana: "",
+        notes: "",
         hints: [],
     }
 
@@ -148,6 +149,13 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                                                     type={"text"}
                                                 />
                                             </div>
+                                            <div className={"flex w-full"}>
+                                                <TextAreaField
+                                                    label={"Notes"}
+                                                    name={"notes"}
+                                                    type={"text"}
+                                                />
+                                            </div>
                                         </div>
                                         <div className={"w-full grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4"}>
                                             <div className={"flex w-full border rounded p-4"}>
@@ -198,13 +206,6 @@ const ModalCreateWord: NextPage<Props> = ({ show, onClickOverlay, selectedId = 0
                                                 </FieldArray>
                                             </div>
                                         </div>
-                                        {/* <div className={"flex mb-4"}>
-                                            {JSON.stringify(errors, null, 4)}
-                                        </div>
-
-                                        <div className={"flex mb-4"}>
-                                            {JSON.stringify(values, null, 4)}
-                                        </div> */}
                                         <div className={"flex mb-4"}>
                                             <ButtonSubmit
                                                 label={"Save"}

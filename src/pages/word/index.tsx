@@ -95,9 +95,22 @@ const Word: NextPage<Props> = ({ notif }) => {
                                     <div>
                                         {data.mean}
                                     </div>
-                                    <div>
-                                        {data.hint}
-                                    </div>
+                                    {data.notes !== "" && (
+                                        <div className={"text-sm whitespace-pre"}>
+                                            <p>
+                                                {data.notes}
+                                            </p>
+                                        </div>
+                                    )}
+                                    {data.hints.length > 0 && (
+                                        <div className={"text-sm flex flex-row mt-4"}>
+                                            {data.hints.map((data, key) => (
+                                                <div className={"mr-1 rounded"} key={key}>
+                                                    #{data.hint}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </gridView.data>
                         )
