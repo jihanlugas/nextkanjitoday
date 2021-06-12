@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react';
 import { UsePage } from '../../hooks/useMutation';
 import { withQuery } from '../../hoc/withQuery';
 import ModalCreateKanji from "../../components/modal/ModalCreateKanji";
-import { GoPlus } from 'react-icons/go'
+import { GoPlus, GoSearch } from 'react-icons/go'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { isEmptyObject } from "../../utils/Validate";
 import { withNotif } from '../../hoc/withNotif';
 import { GridView } from "../../components/widget/Pagination"
+import { useDebounce } from '../../hooks/helper';
 
 
 interface Props {
@@ -24,6 +25,7 @@ interface Props {
 interface paginate {
     page: number;
     perPage: number;
+    search: string;
 }
 
 const Kanji: NextPage<Props> = ({ notif }) => {
@@ -31,6 +33,7 @@ const Kanji: NextPage<Props> = ({ notif }) => {
     const defaultPaginate = {
         page: 1,
         perPage: 10,
+        search: "",
     }
 
     const [kanji, setKanji] = useState<{ [key: string]: any; }>({});
@@ -38,6 +41,10 @@ const Kanji: NextPage<Props> = ({ notif }) => {
     const [selectedId, setSelectedId] = useState<number>(0);
     const [toogle, setToggle] = useState<boolean>(true);
     const [paginate, setPaginate] = useState<paginate>(defaultPaginate)
+    const [search, setSearch] = useState("")
+    const debounceSearch = useDebounce(search, 500)
+
+
 
     const onClickOverlay = (kanjiId: number = 0, refresh: boolean = false) => {
         setSelectedId(kanjiId)
@@ -59,7 +66,19 @@ const Kanji: NextPage<Props> = ({ notif }) => {
         })
     }, [toogle, paginate])
 
+    useEffect(() => {
+        setPaginate({ ...paginate, search: debounceSearch })
+    }, [debounceSearch])
+
     const gridView = GridView(paginate, setPaginate);
+
+    const perPage = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setPaginate({ ...paginate, perPage: parseInt(event.target.value) })
+    }
+
+    const handleChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value)
+    }
 
     return (
         <User>
@@ -77,6 +96,32 @@ const Kanji: NextPage<Props> = ({ notif }) => {
                 </button>
             </div>
             <div className={"flex flex-col px-4 py-2 w-full"}>
+                <div className={"flex flex-row justify-between items-center mb-4"}>
+                    <div className={"flex flex-row items-center"}>
+                        <div className={""}>
+                            Per Page
+                        </div>
+                        <div className={""}>
+                            <select className={"p-2 w-16 rounded bg-transparent"} name="" id="" onChange={perPage}>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className={"relative"}>
+                        <div className={"absolute h-10 w-10 flex justify-center items-center right-0"}>
+                            <GoSearch className={"text-gray-400"} size={"1.2em"} />
+                        </div>
+                        <input
+                            type="text"
+                            className={"w-full border-2 rounded h-10 pl-2 pr-10 bg-gray-100"}
+                            placeholder={"Search"}
+                            value={search}
+                            onChange={handleChangeSearch}
+                        />
+                    </div>
+                </div>
                 <gridView.grid>
                     {isLoading ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((data) => (
                         <gridView.loading key={data} />
